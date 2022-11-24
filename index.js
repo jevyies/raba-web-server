@@ -9,6 +9,8 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
 app.get('/api', (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   res.redirect(`/api/${uuidV4()}`)
 })
 

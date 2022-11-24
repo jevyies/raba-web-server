@@ -8,11 +8,11 @@ const port = process.env.PORT || 3000;
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
-  res.redirect(`/${uuidV4()}`)
+app.get('/api', (req, res) => {
+  res.redirect(`/api/${uuidV4()}`)
 })
 
-app.get('/:room', (req, res) => {
+app.get('/api/:room', (req, res) => {
   res.render('room', { roomId: req.params.room })
 })
 

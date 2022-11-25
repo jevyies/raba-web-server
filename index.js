@@ -3,14 +3,15 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 const { v4: uuidV4 } = require('uuid')
+const path = require('path')
 const port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs')
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, 'public')))
+app.set('views', path.join(__dirname, 'views'))
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
-  // res.redirect(`/${uuidV4()}`)
+  res.redirect(`/${uuidV4()}`)
 })
 
 app.get('/:room', (req, res) => {

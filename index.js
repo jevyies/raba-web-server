@@ -10,13 +10,13 @@ app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))
 
-app.get('/api', (req, res) => {
+app.get('/', (req, res) => {
   res.setHeader('Content-Type', 'text/html');
   res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-  res.redirect(`/api/${uuidV4()}`)
+  res.redirect(`/${uuidV4()}`)
 })
 
-app.get('/api/:room', (req, res) => {
+app.get('/:room', (req, res) => {
   res.render('room', { roomId: req.params.room })
 })
 

@@ -11,8 +11,6 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))
 
 app.get('/', (req, res) => {
-  res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
   res.redirect(`/${uuidV4()}`)
 })
 

@@ -21,13 +21,34 @@ app.get('/:room', (req, res) => {
 })
 
 io.on('connection', socket => {
-  socket.on('join-room', (roomId, userId) => {
-    socket.join(roomId)
-    socket.to(roomId).broadcast.emit('user-connected', userId)
+  socket.on('location', (data) => {
+    io.emit('location', data);
+  })
+  // socket.on('video-call', (roomId, userId) => {
+  //   socket.join(roomId);
+  //   socket.to(roomId).broadcast.emit('app-connected', userId);
 
-    socket.on('disconnect', () => {
-      socket.to(roomId).broadcast.emit('user-disconnected', userId)
-    })
+  //   socket.on('disconnect', () => {
+  //     socket.to(roomId).broadcast.emit('user-disconnected', userId)
+  //   })
+  // })
+  socket.on('join-room', (roomId) => {
+    socket.join(roomId);
+    socket.to(roomId).emit('someone-connected', roomId);
+
+    socket.on('call_initiate', (offer) => {
+      socket.to(roomId).emit('someone_called', offer);
+    }) 
+
+    socket.on('add-candidate', (candidate) => {
+      socket.to(roomId).emit('candidate-added', candidate);
+    });
+    socket.on('answer-call', (answer) => {
+      socket.to(roomId).emit('answer_call', answer);
+    });
+  })
+  socket.on('create-room', () => {
+    socket.emit('room-created', uuidv4());
   })
 })
 
